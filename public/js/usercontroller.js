@@ -8,10 +8,9 @@ angular.module('DemoApp').controller('usercontroller', [
   '$timeout',
   'store',
   function($scope, $http, $stateParams, $location, $rootScope,$state, $timeout,store) {
-    
-    
-    $scope.init = function() {
-      
+
+
+    $scope.init = function() {      
       $scope.userSession = store.get('userSession');
       $scope.gettodos();
      if($stateParams.todo_id)
@@ -23,7 +22,7 @@ angular.module('DemoApp').controller('usercontroller', [
       $scope.stateParams = $stateParams.todo_id;
       $scope.IsVisible = false;
       $scope.IsCalVisible = false;
-      
+
     $scope.ShowHide = function () {
       //If form is visible it will be hidden and vice versa.
       $scope.IsVisible = $scope.IsVisible ? false : true;
@@ -39,7 +38,7 @@ angular.module('DemoApp').controller('usercontroller', [
       @initialDate
       @lastDate
     */
-   
+
     $scope.addUpdateTodos = function(data,valid) {
       if(valid){
         if ($stateParams.todo_id)
@@ -59,21 +58,21 @@ angular.module('DemoApp').controller('usercontroller', [
     $scope.addtodos = function(data) {
 
         var selecteddate = data.reminderdate;
-        var utcdate = moment(selecteddate).utc(Date).format("YYYY-MM-DD"); 
+        var utcdate = moment(selecteddate).utc(Date).format("YYYY-MM-DD");
         var selectedtimee = data.remindertime;
         var utctime = moment(selectedtimee).utc().format("h:mm") ;
         var utcdatetime = utcdate +" "+ utctime;
-        
+
         var tododata = {
             todo_data : data.todo_data,
             user_id: $scope.userSession.userid,
             reminder_date:utcdate,
             reminder_time:utcdatetime
         }
-        
-        
+
+
       $http.post(baseUrl + 'addtodos',tododata).success(function(res, req) {
-        
+
         if(res.status == true){
           $scope.gettodos();
           $scope.IsVisible = false;
@@ -105,7 +104,7 @@ angular.module('DemoApp').controller('usercontroller', [
     $scope.updatetodos = function(data) {
 
         var selecteddate = data.reminderdate;
-        var utcdate = moment(selecteddate).utc(Date).format("YYYY-MM-DD"); 
+        var utcdate = moment(selecteddate).utc(Date).format("YYYY-MM-DD");
         var selectedtimee = data.remindertime;
         var utctime = moment(selectedtimee).utc().format("h:mm") ;
         var utcdatetime = utcdate +" "+ utctime;
@@ -138,7 +137,7 @@ angular.module('DemoApp').controller('usercontroller', [
       });
     }
 
- 
+
     /**
      @function gettododetails
      @type post
@@ -152,7 +151,7 @@ angular.module('DemoApp').controller('usercontroller', [
       }
       $http.post(baseUrl + 'gettododetails',tododata).success(function(res, req) {
         $scope.data = res.record[0];
-        
+
       }).error(function() {
         console.log("Connection Problem.");
       });
@@ -174,7 +173,7 @@ angular.module('DemoApp').controller('usercontroller', [
         for (var i = 0; i < $scope.todolist.length; i++) {
             var utctolocaltime = new Date($scope.todolist[i].reminder_time +" "+ 'UTC');
             var replacetime = utctolocaltime.toString();
-            
+
             var hours = utctolocaltime.getHours();
             var minutes = utctolocaltime.getMinutes();
             var ampm = hours >= 12 ? 'pm' : 'am';
@@ -182,10 +181,10 @@ angular.module('DemoApp').controller('usercontroller', [
             hours = hours ? hours : 12; // the hour '0' should be '12'
             minutes = minutes < 10 ? '0'+minutes : minutes;
             var localtime = hours + ':' + minutes + ' ' + ampm;
-           
-            $scope.todolist[i].reminder_time = localtime; 
+
+            $scope.todolist[i].reminder_time = localtime;
         };
-        
+
       }).error(function() {
         console.log("Connection Problem.");
       });
@@ -194,7 +193,7 @@ angular.module('DemoApp').controller('usercontroller', [
     /**
     @function deletetodo
     @type post
-    @author 
+    @author
     @initialDate
     @lastDate
     */
@@ -230,7 +229,7 @@ angular.module('DemoApp').controller('usercontroller', [
       }).error(function() {
         console.log("Connection Problem.");
       });
-    };  
+    };
 
 
     }
