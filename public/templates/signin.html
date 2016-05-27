@@ -1,0 +1,47 @@
+<div class="container_margin">
+	<form data-ng-submit="userlogin(user,loginfrm.$valid)" name="loginfrm" id="loginform" novalidate>
+	<fieldset>
+		<div class="col-10">  	
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<h2 for="login">Welcome To App</h2>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="text" class="field" id="text-input" placeholder="Enter Email Address" data-ng-model="user.user_email" name= "email" data-ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" required>
+		  			<span>
+	            		<div data-ng-messages="loginfrm.$submitted && loginfrm.email.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter Email Address</div>
+		                  <div data-ng-message="pattern">Enter Valid Email Address</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  		
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="password" class="field" id="text-input" name="password"placeholder="Enter Password" data-ng-model="user.user_password" required>
+		  			<span ng-if="loginfrm.$submitted">
+	            		<div data-ng-messages="loginfrm.$submitted && loginfrm.password.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter Password</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<button class="field">LOGIN</button>
+		  			<div ng-model="loginfailuremsg" ng-show="showloginfailuremsg" class="login_err_msg">{{loginfailuremsg}}</div>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-7 field">
+		  			<label ui-sref="signup">SIGN UP</label>
+		  		</div>
+		  	</div>
+		  	
+		</div>	
+	</fieldset>
+	</form>
+</div>

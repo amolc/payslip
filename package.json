@@ -1,0 +1,26 @@
+{
+  "name": "templates",
+  "version": "0.0.0",
+  "private": "true",
+  "scripts": {
+    "start": "node ./www"
+  },
+  "dependencies": {
+    "angular-bootstrap-datetimepicker": "^0.4.0",
+    "async": "^1.5.2",
+    "body-parser": "~1.15.0",
+    "cookie-parser": "~1.4.1",
+    "cron": "^1.1.0",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "moment": "^2.11.2",
+    "morgan": "~1.7.0",
+    "mysql": "^2.10.2",
+    "mysql-crud": "^0.1.4",
+    "node-gcm": "^0.14.1",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

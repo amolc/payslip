@@ -1,0 +1,61 @@
+<div class="container_margin">
+	<form data-ng-submit="signup(userinfo,signupfrm.$valid)" name="signupfrm" id="signupform" novalidate>
+	<fieldset>
+		<div class="col-10">  	
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<h2 for="login">SIGN UP FORM</h2>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="text" class="field" placeholder="Enter First Name" data-ng-model="userinfo.user_fname" name= "fname" required>
+		  			<span>
+	            		<div data-ng-messages="signupfrm.$submitted && signupfrm.fname.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter First Name</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="text" class="field" placeholder="Enter Last Name" data-ng-model="userinfo.user_lname" name= "lname" required>
+		  			<span>
+	            		<div data-ng-messages="signupfrm.$submitted && signupfrm.lname.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter Last Name</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="text" class="field" id="text-input" placeholder="Enter Email Address" data-ng-model="userinfo.user_email" name= "email" data-ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" required>
+		  			<span>
+	            		<div data-ng-messages="signupfrm.$submitted && signupfrm.email.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter Email Address</div>
+		                  <div data-ng-message="pattern">Enter Valid Email Address</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  		
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<input type="password" class="field" id="text-input" name="password"placeholder="Enter Password" data-ng-model="userinfo.user_password" required>
+		  			<span ng-if="signupfrm.$submitted">
+	            		<div data-ng-messages="signupfrm.$submitted && signupfrm.password.$error" role="alert" class="error_msg">
+		                  <div data-ng-message="required">Please Enter Password</div>
+	            		</div>
+          			</span>
+		  		</div>
+		  	</div>
+		  	<div class="field-group clear row"> 
+		  		<div class="col-5 push-5">
+		  			<button class="field">SIGN UP</button>
+		  			<div ng-model="signupmsg" ng-show="showsignmsg" class="success_msg">{{signupmsg}}</div>
+		  		</div>
+		  	</div>
+		</div>	
+	</fieldset>
+	</form>
+</div>

@@ -1,0 +1,15 @@
+<div>
+	<div data-ng-controller="usercontroller" data-ng-init="gettodos()">
+		<h1>Reminder</h1>
+		<div>
+        	<button ui-sref="add_todos">ADD</button>
+        	<button ui-sref="listtodos">LIST</button>
+        	<button ui-sref="welcomepage">Welcomepage</button>
+      	</div>
+      	<div>
+			<ul ng-repeat="todo in todolist">
+				<li> {{todo.todo_data}} <a ui-sref="add_todos({todo_id :todo.todo_id})">Edit</a> <a href="">Delete</a></li>
+			</ul>
+      	</div>
+	</div>	
+</div>

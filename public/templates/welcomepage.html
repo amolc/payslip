@@ -1,0 +1,27 @@
+<div id="demo" ng-controlller="MainController">
+    <h1>Employees</h1>
+
+    <!-- Responsive table starts here -->
+    <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+    <div class="table-responsive-vertical shadow-z-1">
+        <!-- Table starts here -->
+        <table id="table" class="table table-hover table-mc-light-blue">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Date of Joining</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="emp in employees" ng-click="navigate(emp)">
+                    <td data-title="ID">{{emp.emp_id}}</td>
+                    <td data-title="Name" style=" text-transform: capitalize;">{{emp.emp_name}}</td>
+                    <td data-title="Designation" style=" text-transform: capitalize;"> {{emp.emp_designation}} </td>
+                    <td data-title="Date of Joining">{{emp.emp_doj | date }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

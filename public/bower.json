@@ -1,0 +1,11 @@
+{
+  "name": "express-hybrid",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-ui-router": "~0.2.15",
+    "base": "~2.7.2",
+    "bootstrap": "~3.3.6",
+    "angular-material-datetimepicker": "~1.2.6"
+  }
+}
