@@ -10,7 +10,7 @@ var SampleApplicationModule = angular.module('DemoApp', ['ui.router', 'angular-s
 
 SampleApplicationModule.config(['$urlRouterProvider', '$stateProvider', 'storeProvider', function($urlRouterProvider, $stateProvider, storeProvider) {
     storeProvider.setStore('sessionStorage');
-    //$urlRouterProvider.otherwise('/signin');
+    $urlRouterProvider.otherwise('/welcomepage');
     $stateProvider
         .state('signin', {
             url: '/signin',
