@@ -8,7 +8,7 @@ var settingCRUD = CRUD(connection, 'salary_settings');
 var employeeCRUD = CRUD(connection, 'emp_details');
 
 exports.settings = function(req, res) {
-    console.log('settings api');
+    //console.log('settings api');
     settingCRUD.load({}, function(err, settings) {
         if (!err) {
 
@@ -33,4 +33,22 @@ exports.settings = function(req, res) {
             });
         }
     });
+};
+
+
+exports.getemployee = function(req, res) {
+    // console.log('getemployee');
+     employeeCRUD.load({emp_id : req.body.emp_id}, function(error, employees) {
+         if (!error) {
+             res.jsonp({
+                 status: true,
+                 employees: employees
+             });
+         } else {
+             console.log('error reading settings');
+             res.jsonp({
+                 status: false
+             });
+         }
+     });
 };

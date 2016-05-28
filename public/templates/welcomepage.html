@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="emp in employees" ng-click="navigate(emp)">
+                <tr ng-repeat="emp in employees" ui-sref="payslip({emp_id:emp.emp_id})">
                     <td data-title="ID">{{emp.emp_id}}</td>
                     <td data-title="Name" style=" text-transform: capitalize;">{{emp.emp_name}}</td>
                     <td data-title="Designation" style=" text-transform: capitalize;"> {{emp.emp_designation}} </td>

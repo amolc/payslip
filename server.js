@@ -101,6 +101,7 @@ app.use(function(req, res, next) {
 
 //app.use('/api/setting', salary);
 app.get('/api/setting', salary.settings);
+app.post('/api/getemployee', salary.getemployee);
 // app.post('/api/login', userlogin.login);
 // app.post('/api/addtodos',todos.addtodos);
 // app.post('/api/gettodos',todos.gettodos);

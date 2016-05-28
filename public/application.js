@@ -1,5 +1,5 @@
 // Invoke 'strict' JavaScript mode
-'use strict';
+//'use strict';
 
 // Set the main application name
 var ApplicationModuleName = 'DemoApp';
@@ -18,18 +18,22 @@ SampleApplicationModule.config(['$urlRouterProvider', '$stateProvider', 'storePr
         })
 
     .state('welcomepage', {
-        url: '/welcomepage',
-        templateUrl: 'templates/welcomepage.html'
-    })
+            url: '/welcomepage',
+            templateUrl: 'templates/welcomepage.html'
+        })
+        .state('pay', {
+            url: '/pay/:emp_id',
+            templateUrl: 'templates/pay.html'
+        })
 
     .state('signup', {
-        url: '/signup',
-        templateUrl: 'templates/signup.html'
-    })
-    .state('payslip', {
-          url: '/payslip/:emp_id',
-          templateUrl: 'templates/payslip.html'
-      })
+            url: '/signup',
+            templateUrl: 'templates/signup.html'
+        })
+        .state('payslip', {
+            url: '/payslip/:emp_id',
+            templateUrl: 'templates/payslip.html'
+        });
 
     /*$stateProvider
     .state('add_todos', {
@@ -57,8 +61,11 @@ angular.module('DemoApp').controller('MainController', [
     function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store) {
 
         $scope.init = function() {
-
             $scope.userSession = store.get('userSession') || {};
+        };
+        if ($stateParams.emp_id) {
+            console.log('$stateParams', $stateParams);
+            $scope.navigate($stateParams);
         }
 
         /*
@@ -113,24 +120,75 @@ angular.module('DemoApp').controller('MainController', [
             $scope.init();
         };
 
-
-
+        //$scope.custom = true;
+        $scope.current_date = new Date();
         $scope.settings = function() {
             $http.get(baseUrl + 'setting').success(function(res, req) {
-                console.log('settings', res.settings[0]);
-                console.log('Employees ', res.employees);
+                //console.log('settings', res.settings[0]);
+                //console.log('Employees ', res.employees);
                 $scope.settings = res.settings[0];
                 $scope.employees = res.employees;
             }).error(function(error) {
                 console.log("error getting settings", error);
-            })
+            });
         };
+
         $scope.settings();
 
-        $scope.navigate = function(current_employee) {
-          console.log('current employee',current_employee);
-          $location.path('/payslip/' + current_employee.emp_id);
+        $scope.salary = {
+            "salary_record_totalsalary": 0,
+            "salary_record_basic": 0,
+            "salary_record_hr": 0,
+            "salary_record_conv": 0,
+            "salary_record_medical": 0,
+            "salary_record_personal": 0,
+            "salary_record_phone": 0,
+            "salary_record_pf": 0,
+            "salary_record_edu": 0,
+            "salary_record_incometax": 0,
+            "salary_record_esi": 0,
+            "salary_record_month": 0
         };
+
+        $scope.navigate = function(emp_id) {
+            $http.post(baseUrl + 'getemployee', emp_id).success(function(res, req) {
+                //    console.log('current employee',res);
+                $scope.current_employee = res.employees[0];
+            }).error(function() {
+                console.log("problem In signup");
+            });
+        };
+
+        $scope.calculateSalary = function() {
+            console.log($scope.settings);
+            $scope.new_salary = {
+                "salary_record_basic": $scope.settings.setting_basic * $scope.salary.salary_total,
+                "salary_record_hr": $scope.settings.salary_hr * $scope.salary.salary_total,
+                "salary_record_conv": $scope.settings.salary_conv * $scope.salary.salary_total,
+                "salary_record_medical": $scope.settings.salary_medical * $scope.salary.salary_total,
+                "salary_record_personal": $scope.settings.salary_personal * $scope.salary.salary_total,
+                "salary_record_esi": $scope.settings.salary_esi * $scope.salary.salary_total,
+                "salary_record_phone": $scope.settings.salary_phone * $scope.salary.salary_total,
+                "salary_record_pf": $scope.settings.salary_pf * $scope.salary.salary_total,
+                "salary_record_edu": $scope.settings.salary_edu * $scope.salary.salary_total,
+                "salary_record_incometax": $scope.settings.salary_incometax * $scope.salary.salary_total,
+                "salary_record_pt": $scope.settings.salary_pt * $scope.salary.salary_total
+            };
+
+            $scope.deduction = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu + $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt;
+            $scope.cash_in_hand = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
+                $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt +
+                $scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
+                $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
+                $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_esi +
+                $scope.new_salary.salary_record_phone;
+            console.log('Cash in Hand', $scope.cash_in_hand);
+            console.log('Calculated Salary', $scope.new_salary);
+            console.log('total deducation', $scope.deduction);
+            console.log('CTC/PM', $scope.salary.salary_total - $scope.deduction);
+
+        };
+
 
 
         $scope.signup = function(userinfo, valid) {
