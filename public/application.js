@@ -76,6 +76,22 @@ angular.module('DemoApp').controller('MainController', [
         @lastDate
         **/
 
+        $scope.printthis = function() {
+
+            html2canvas(document.getElementById('printthis'), {
+                onrendered: function(canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500,
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
+                }
+            });
+        }
+
         $scope.userlogin = function(user, valid) {
             if (valid) {
                 $http.post(baseUrl + 'login', user).success(function(res, req) {

@@ -9,10 +9,11 @@
                 <input type="number" ng-model="salary.salary_total" class="form-control" id="email">
                 <br>
                 <button type="submit" class="btn btn-default" ng-click="calculateSalary();custom=!custom">Submit</button>
+                  <button type="submit" class="btn btn-default" ng-click="printthis()">Print This</button>
             </div>
         </div>
     </form>
-    <div>
+    <div id="printthis">
         <style type="text/css">
             .tg {
                 border-collapse: collapse;
