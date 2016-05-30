@@ -75,9 +75,8 @@ angular.module('DemoApp').controller('MainController', [
         @initialDate
         @lastDate
         **/
-
+        $scope.random_number = Math.floor((Math.random() * 99999999999) + 1);
         $scope.printthis = function() {
-
             html2canvas(document.getElementById('printthis'), {
                 onrendered: function(canvas) {
                     var data = canvas.toDataURL();
@@ -87,10 +86,10 @@ angular.module('DemoApp').controller('MainController', [
                             width: 500,
                         }]
                     };
-                    pdfMake.createPdf(docDefinition).download("Score_Details.pdf");
+                    pdfMake.createPdf(docDefinition).download($scope.random_number+"_salary.pdf");
                 }
             });
-        }
+        };
 
         $scope.userlogin = function(user, valid) {
             if (valid) {
@@ -175,35 +174,54 @@ angular.module('DemoApp').controller('MainController', [
             });
         };
 
-        $scope.calculateSalary = function() {
-            console.log($scope.settings);
-            $scope.new_salary = {
-                "salary_record_basic": $scope.settings.setting_basic * $scope.salary.salary_total,
-                "salary_record_hr": $scope.settings.salary_hr * $scope.salary.salary_total,
-                "salary_record_conv": $scope.settings.salary_conv * $scope.salary.salary_total,
-                "salary_record_medical": $scope.settings.salary_medical * $scope.salary.salary_total,
-                "salary_record_personal": $scope.settings.salary_personal * $scope.salary.salary_total,
-                "salary_record_esi": $scope.settings.salary_esi * $scope.salary.salary_total,
-                "salary_record_phone": $scope.settings.salary_phone * $scope.salary.salary_total,
-                "salary_record_pf": $scope.settings.salary_pf * $scope.salary.salary_total,
-                "salary_record_edu": $scope.settings.salary_edu * $scope.salary.salary_total,
-                "salary_record_incometax": $scope.settings.salary_incometax * $scope.salary.salary_total,
-                "salary_record_pt": $scope.settings.salary_pt * $scope.salary.salary_total
-            };
 
-            $scope.deduction = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu + $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt;
-            $scope.cash_in_hand = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
-                $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt +
-                $scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
-                $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
-                $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_esi +
-                $scope.new_salary.salary_record_phone;
-            console.log('Cash in Hand', $scope.cash_in_hand);
-            console.log('Calculated Salary', $scope.new_salary);
-            console.log('total deducation', $scope.deduction);
-            console.log('CTC/PM', $scope.salary.salary_total - $scope.deduction);
+        $scope.calculateSalary = function(salaryForm) {
+            if (salaryForm.$valid) {
+                $scope.new_salary = {
+                    "salary_record_basic": $scope.settings.setting_basic * $scope.salary.salary_total,
+                    "salary_record_hr": $scope.settings.salary_hr * $scope.salary.salary_total,
+                    "salary_record_conv": $scope.settings.salary_conv * $scope.salary.salary_total,
+                    "salary_record_medical": $scope.settings.salary_medical * $scope.salary.salary_total,
+                    "salary_record_personal": $scope.settings.salary_personal * $scope.salary.salary_total,
+                    "salary_record_esi": $scope.settings.salary_esi * $scope.salary.salary_total,
+                    "salary_record_phone": $scope.settings.salary_phone * $scope.salary.salary_total,
+                    "salary_record_pf": $scope.settings.salary_pf * $scope.salary.salary_total,
+                    "salary_record_edu": $scope.settings.salary_edu * $scope.salary.salary_total,
+                    "salary_record_incometax": $scope.settings.salary_incometax * $scope.salary.salary_total,
+                    "salary_record_pt": $scope.settings.salary_pt * $scope.salary.salary_total
+                };
 
+                $scope.deduction = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu + $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt;
+                $scope.cash_in_hand = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
+                    $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt +
+                    $scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
+                    $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
+                    $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_esi +
+                    $scope.new_salary.salary_record_phone;
+                // console.log('Cash in Hand', $scope.cash_in_hand);
+                // console.log('Calculated Salary', $scope.new_salary);
+                // console.log('total deducation', $scope.deduction);
+                // console.log('CTC/PM', $scope.salary.salary_total - $scope.deduction);
+
+                $scope.salaryInfo = [];
+                $scope.salaryInfo.push({
+                    empInfo: $scope.current_employee,
+                    new_salary: $scope.new_salary,
+                    deduction: $scope.deduction,
+                    cash_in_hand: $scope.cash_in_hand,
+                    ctc: $scope.salary.salary_total - $scope.deduction,
+                    salary_total: $scope.salary.salary_total
+                });
+                // $http.post(baseUrl + 'savepayslip', $scope.salaryInfo).success(function(res, req) {
+                //     console.log('response salary api', res);
+                // }).error(function(error) {
+                //     console.log("problem In creating payslip", error);
+                // });
+                //  $scope.printthis();
+                //document.getElementById("printthis").reset();
+            }
         };
+
 
 
 

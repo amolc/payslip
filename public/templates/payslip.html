@@ -2,24 +2,28 @@
 <div class="page-header" ng-controller="MainController">
     <h1 style="background: #E5F6FB; padding: 20px; border-radius: 4px; color: #2C3E4C; text-transform: uppercase; border: 1px solid #D8E9EF;">Employee : -
         {{current_employee.emp_name}}</h1>
-    <form role="form">
+    <form role="form" name="salaryForm" novalidate>
         <div class="row">
             <div class="form-group col-md-3">
                 <label for="email">Total Salary</label>
-                <input type="number" ng-model="salary.salary_total" class="form-control" id="email">
+                <input type="number" ng-model="salary.salary_total" name="total_salary" class="form-control" id="email" required>
                 <br>
-                <button type="submit" class="btn btn-default" ng-click="calculateSalary();custom=!custom">Submit</button>
-                  <button type="submit" class="btn btn-default" ng-click="printthis()">Print This</button>
+                <div ng-messages="salaryForm.$submitted && salaryForm.total_salary.$error" role="alert">
+                    <div ng-message="required" class="alert alert-danger"> Enter Total Salary</div>
+                </div>
+                <button type="submit" class="btn btn-default" ng-click="calculateSalary(salaryForm);printthis();custom=!custom">Submit</button>
+                <!-- <button type="submit" class="btn btn-default" ng-click="printthis()">Print This</button> -->
             </div>
         </div>
     </form>
-    <div id="printthis">
+    <div id="printthis" ng-show="deduction">
         <style type="text/css">
             .tg {
                 border-collapse: collapse;
                 border-spacing: 0;
                 border-color: #ccc;
             }
+
             .tg td {
                 font-family: Arial, sans-serif;
                 font-size: 14px;
@@ -32,6 +36,7 @@
                 color: #333;
                 background-color: #fff;
             }
+
             .tg th {
                 font-family: Arial, sans-serif;
                 font-size: 14px;
@@ -45,25 +50,31 @@
                 color: #333;
                 background-color: #f0f0f0;
             }
+
             .tg .tg-y2tu {
                 font-weight: bold;
                 text-decoration: underline;
                 vertical-align: top;
             }
+
             .tg .tg-e3zv {
                 font-weight: bold;
             }
+
             .tg .tg-cmw5 {
                 font-size: 12px;
                 font-family: "Lucida Console", Monaco, monospace !important;
             }
+
             .tg .tg-yw4l {
                 vertical-align: top;
             }
+
             .tg .tg-9hbo {
                 font-weight: bold;
                 vertical-align: top;
             }
+
             @media screen and (max-width: 767px) {
                 .tg {
                     width: auto !important;
@@ -76,11 +87,31 @@
                     -webkit-overflow-scrolling: touch;
                 }
             }
-
         </style>
-        <div class="tg-wrap">
+        <div class="">
+
+        </div>
+
+        <div class="tg-wrap" style="padding-left:150px">
+            <div class="row">
+                <div class="col-md-6">
+                    <img style="height:100px;width:100px" src="/ft.png" alt="" />
+                </div>
+                <div class="col-md-6">
+                    <b>
+                  <p style="text-align: right;padding-right: 180px;">
+                  FOUNTAIN TECHNOLOGIES
+                  <br> SKY ONE 1ST FLOOR,
+                  <br> OPP GOLD ADLABS,
+                  <br> CLOVER WATER GARDEN,
+                  <br> KALYANI NAGAR,
+                  <br>PUNE, 411006
+                  </p>
+                  </b>
+                </div>
+            </div>
             <h1>
-                <center style="text-decoration: underline;">SALARY SLIP</center>
+                <center style="text-decoration: underline;padding-right: 260px;">SALARY SLIP</center>
             </h1>
             <table class="tg" style="undefined;table-layout: fixed; width: 1142px">
                 <colgroup>
@@ -89,41 +120,58 @@
                     <col style="width: 326px">
                     <col style="width: 296px">
                 </colgroup>
+                <!-- <tr>
+
+                <span style="padding-left:5em">Name</span>
+                <span style="padding-left:5em">{{current_employee.emp_name}}</span>
+                <span style="padding-left:5em">DATE</span>
+                <span style="padding-left:5em">{{current_date | date}}</span>
+              </tr> -->
                 <tr>
-                    <th class="tg-e3zv">NAME<br></th>
-                    <th class="tg-031e">{{current_employee.emp_name}}</th>
+                    <th class="tg-e3zv">NAME
+                        <br>
+                    </th>
+                    <th class="tg-031e" style="text-transform: uppercase">{{current_employee.emp_name}}</th>
                     <th class="tg-e3zv">DATE</th>
-                    <th class="tg-031e">{{current_date | date}}</th>
+                    <th class="tg-031e" style="text-transform: uppercase">{{current_date | date}}</th>
                 </tr>
                 <tr>
-                    <td class="tg-e3zv">DESIGNATION<br></td>
-                    <td class="tg-031e">{{current_employee.emp_designation}}</td>
-                    <td class="tg-031e"></td>
-                    <td class="tg-031e"></td>
-                </tr>
-                <tr>
-                    <td class="tg-e3zv">DEPARTMENT<br></td>
-                    <td class="tg-031e">{{current_employee.emp_department}}</td>
+                    <td class="tg-e3zv">DESIGNATION
+                        <br>
+                    </td>
+                    <td class="tg-031e" style="text-transform: uppercase">{{current_employee.emp_designation}}</td>
                     <td class="tg-031e"></td>
                     <td class="tg-031e"></td>
                 </tr>
                 <tr>
-                    <td class="tg-e3zv">DATE OF JOINING<br></td>
-                    <td class="tg-cmw5">{{current_employee.emp_doj | date}}</td>
+                    <td class="tg-e3zv">DEPARTMENT
+                        <br>
+                    </td>
+                    <td class="tg-031e" style="text-transform: uppercase">{{current_employee.emp_department}}</td>
                     <td class="tg-031e"></td>
                     <td class="tg-031e"></td>
                 </tr>
                 <tr>
-                    <td class="tg-031e"></td>
-                    <td class="tg-031e"></td>
+                    <td class="tg-e3zv">DATE OF JOINING
+                        <br>
+                    </td>
+                    <td class="tg-cmw5" style="text-transform: uppercase">{{current_employee.emp_doj | date}}</td>
                     <td class="tg-031e"></td>
                     <td class="tg-031e"></td>
                 </tr>
+                <!-- <tr>
+                    <td class="tg-031e"></td>
+                    <td class="tg-031e"></td>
+                    <td class="tg-031e"></td>
+                    <td class="tg-031e"></td>
+                </tr> -->
                 <tr>
                     <td class="tg-yw4l"></td>
                     <td class="tg-y2tu">EARNINGS</td>
                     <td class="tg-yw4l"></td>
-                    <td class="tg-y2tu">DEDUCTIONS<br></td>
+                    <td class="tg-y2tu">DEDUCTIONS
+                        <br>
+                    </td>
                 </tr>
                 <tr>
                     <td class="tg-y2tu">SALARY HEAD</td>
@@ -133,7 +181,9 @@
                 </tr>
                 <tr>
                     <td class="tg-yw4l">Basic</td>
-                    <td class="tg-yw4l">{{new_salary.salary_record_basic}}<br></td>
+                    <td class="tg-yw4l">{{new_salary.salary_record_basic}}
+                        <br>
+                    </td>
                     <td class="tg-yw4l">PF Employee</td>
                     <td class="tg-yw4l">{{new_salary.salary_record_pf}}</td>
                 </tr>
@@ -145,13 +195,17 @@
                 </tr>
                 <tr>
                     <td class="tg-yw4l">Conv. All</td>
-                    <td class="tg-yw4l">{{new_salary.salary_record_conv}}<br></td>
+                    <td class="tg-yw4l">{{new_salary.salary_record_conv}}
+                        <br>
+                    </td>
                     <td class="tg-yw4l">Income Tax</td>
                     <td class="tg-yw4l">{{new_salary.salary_record_incometax}}</td>
                 </tr>
                 <tr>
                     <td class="tg-yw4l">Medical Allowance</td>
-                    <td class="tg-yw4l">{{new_salary.salary_record_medical}}<br></td>
+                    <td class="tg-yw4l">{{new_salary.salary_record_medical}}
+                        <br>
+                    </td>
                     <td class="tg-yw4l">Professional Tax</td>
                     <td class="tg-yw4l">{{new_salary.salary_record_pt}}</td>
                 </tr>
@@ -164,30 +218,31 @@
                 <tr>
                     <td class="tg-yw4l">Phone &amp; Internet</td>
                     <td class="tg-yw4l">
-                        <br>
-                        {{new_salary.salary_record_phone}}
+                        <br> {{new_salary.salary_record_phone}}
                     </td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="tg-9hbo">SALARY (GROSS) / PM</td>
-                    <td class="tg-yw4l">{{cash_in_hand - deduction}}<br></td>
+                    <td class="tg-yw4l" style="font-weight: bold;">{{cash_in_hand - deduction}}
+                        <br>
+                    </td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="tg-yw4l">ESI Employer</td>
                     <td class="tg-yw4l"></td>
@@ -227,33 +282,35 @@
                 <tr>
                     <td class="tg-9hbo">SALARY (CTC) / PM</td>
                     <td class="tg-9hbo">{{cash_in_hand - deduction}}</td>
-                    <td class="tg-9hbo">TOTAL DEDUCTION<br></td>
+                    <td class="tg-9hbo">TOTAL DEDUCTION
+                        <br>
+                    </td>
                     <td class="tg-9hbo">{{deduction}}</td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="tg-9hbo">Cash in Hand (PM)</td>
                     <td class="tg-yw4l"></td>
-                    <td class="tg-yw4l">{{cash_in_hand}}</td>
+                    <td class="tg-yw4l" style="font-weight: bold;">{{cash_in_hand}}</td>
                     <td class="tg-yw4l"></td>
                 </tr>
                 <tr>
                     <td class="tg-9hbo">SALARY (CTC) / PA</td>
                     <td class="tg-yw4l"></td>
-                    <td class="tg-yw4l">{{cash_in_hand * 12}}</td>
+                    <td class="tg-yw4l" style="font-weight: bold;">{{cash_in_hand * 12}}</td>
                     <td class="tg-yw4l"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
                     <td class="tg-yw4l"></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="tg-9hbo">Notes:Salary Increase effective April 2016</td>
                     <td class="tg-yw4l"></td>
