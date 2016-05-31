@@ -54,6 +54,7 @@ angular.module('DemoApp').controller('MainController', [
         $scope.init = function() {
             $scope.userSession = store.get('userSession') || {};
         };
+        //  $scope.custom = true;
 
         if ($stateParams.emp_id) {
             // console.log('$stateParams', $stateParams);
@@ -61,16 +62,24 @@ angular.module('DemoApp').controller('MainController', [
         }
 
         if ($stateParams.emp_payslip) {
-            //console.log('emp_payslip', $stateParams);
+
+            console.log('emp_payslip', $stateParams);
+            var emp = {
+                emp_id: $stateParams.emp_payslip
+            };
+            console.log('emp', emp);
             $scope.employeePayslip($stateParams);
+            $scope.navigate(emp);
         }
         $scope.today = function() {
             $scope.dt = new Date();
-            console.log($scope.dt.getMonth());
+
             //$scope.dt = $filter('date')($scope.dt,"MMM");
         };
         $scope.today();
-
+        $scope.employee = {
+            emp_doj: new Date()
+        };
         $scope.clear = function() {
             $scope.dt = null;
         };
@@ -177,6 +186,32 @@ angular.module('DemoApp').controller('MainController', [
         $scope.current_date = new Date();
         $scope.date = new Date();
 
+        $scope.addupdateEmployee = function(employeeForm) {
+            if (employeeForm.$valid) {
+                console.log('New Employee', $scope.employee);
+                $http.post(baseUrl + 'createmployee', $scope.employee).success(function(res, req) {
+                    // $scope.employeeForm.$setPristine();
+                    console.log('current_employee', res);
+                    $scope.employeeMsg = "Employee Added";
+                    $scope.showemployeeMsg = true;
+                    $scope.hidecustom = false;
+                    $timeout(function() {
+                        $timeout(function() {
+                            $scope.showemployeeMsg = false;
+
+                        }, 3000);
+                    }, 2000);
+                    document.getElementById("employeeForm").reset();
+                    $scope.hidecustom = true;
+                    // $scope.settings();
+                }).error(function() {
+                    console.log("problem In signup");
+                });
+            } else {
+                console.log('invalid form');
+            }
+        };
+
         $scope.settings = function() {
             $http.get(baseUrl + 'setting').success(function(res, req) {
                 $scope.settings = res.settings[0];
@@ -205,6 +240,7 @@ angular.module('DemoApp').controller('MainController', [
 
         $scope.navigate = function(emp_id) {
             $http.post(baseUrl + 'getemployee', emp_id).success(function(res, req) {
+                console.log('current_employee', res.employees);
                 $scope.current_employee = res.employees[0];
             }).error(function() {
                 console.log("problem In signup");
@@ -212,6 +248,7 @@ angular.module('DemoApp').controller('MainController', [
         };
 
         $scope.calculateSalary = function(salaryForm) {
+            console.log('is form valid', salaryForm.$valid);
             if (salaryForm.$valid) {
                 $scope.new_salary = {
                     "salary_record_basic": $scope.settings.setting_basic * $scope.salary.salary_total,
@@ -245,14 +282,20 @@ angular.module('DemoApp').controller('MainController', [
                     salary_total: $scope.salary.salary_total,
                     month: $scope.dt
                 });
-                $http.post(baseUrl + 'savepayslip', $scope.salaryInfo).success(function(res, req) {
-                    console.log('response salary api', res);
-                }).error(function(error) {
-                    console.log("problem In creating payslip", error);
-                });
-                //  $scope.printthis();
-                //document.getElementById("printthis").reset();
             }
+        };
+
+        $scope.saveCalculatedSalary = function() {
+            $http.post(baseUrl + 'savepayslip', $scope.salaryInfo).success(function(res, req) {
+                console.log('response salary api', res);
+                if (res.status == true) {
+                    $scope.created = true
+                } else {
+                    $scope.created = false
+                }
+            }).error(function(error) {
+                console.log("problem In creating payslip", error);
+            });
         };
 
         $scope.employeePayslip = function(emp) {

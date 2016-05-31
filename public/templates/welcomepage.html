@@ -1,14 +1,65 @@
+<h1 style="text-align: center;">Employees</h1>
+<div class="alert-success col-md-3" role="" style="padding: 15px; margin-bottom: -15px; border: 1px solid transparent; border-radius: 4px;margin-left: 177px; ">
+    <p style="font-weight:bolder;" ng-click="hidecustom=!hidecustom">
+        <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Add Employee</p>
+</div>
+<br>
+<br>
+<br>
+<form name="employeeForm" id="employeeForm" data-ng-submit="addupdateEmployee(employeeForm)" novalidate>
+    <div ng-show="hidecustom">
+        <div class="col-md-3" style="float: none; margin-top: 28px; margin-left: 180px; padding-left: 0px; padding-right: 1px;">
+            <div class="form-group">
+                <input type="text" name="employee_name" ng-model="employee.emp_name" tabindex="1" class="form-control" placeholder="Employee Name" required>
+                <div class="" ng-messages="employeeForm.$submitted && employeeForm.employee_name.$error" role="alert">
+                    <div class="text-danger" style="text-align: center;" ng-message="required">
+                        Enter Employee Name</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="textarea" name="emp_designation" ng-model="employee.emp_designation" tabindex="2" class="form-control" placeholder="Employee Designation" required>
+                <div class="" ng-messages="employeeForm.$submitted && employeeForm.emp_designation.$error" role="alert">
+                    <div class="text-danger" style="text-align: center;" ng-message="required">
+                        Enter Employee Designation</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" name="emp_department" ng-model="employee.emp_department" tabindex="3" class="form-control" placeholder="Employee Department" required>
+                <div class="" ng-messages="employeeForm.$submitted && employeeForm.emp_department.$error" role="alert">
+                    <div class="text-danger" style="text-align: center;" ng-message="required">
+                        Enter Employee Department</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="employee.emp_doj" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+           <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+         </span>
+                </p>
+                <!-- <input type="date" name="emp_doj" ng-model="employee.emp_doj" tabindex="3" class="form-control" placeholder="Employee Date of Joining" required> -->
+                <div class="" ng-messages="employeeForm.$submitted && employeeForm.emp_doj.$error" role="alert">
+                    <div class="text-danger" style="text-align: center;" ng-message="required">
+                        Enter Employee DOJ</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="">
+                    <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn-success" value="Save">
+                </div>
+                <br>
+                <div ng-model="employeeMsg" ng-show="showemployeeMsg" class="alert alert-success">{{employeeMsg}}</div>
+                <div ng-model="categoryErrorsmsg" ng-show="showcategoryErrormsg" class="alert alert-danger">{{categoryErrormsg}}</div>
+            </div>
+        </div>
+    </div>
+</form>
 <div id="demo" ng-controller="MainController">
-    <h1>Employees</h1>
-
-    <!-- Responsive table starts here -->
-    <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
     <div class="table-responsive-vertical shadow-z-1">
-        <!-- Table starts here -->
         <table id="table" class="table table-hover table-mc-light-blue">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Designation</th>
                     <th>Date of Joining</th>
@@ -16,7 +67,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="emp in employees" ui-sref="employeepayslip({emp_payslip:emp.emp_id})">
-                    <td data-title="ID">{{emp.emp_id}}</td>
+                    <!-- <td data-title="ID">{{emp.emp_id}}</td> -->
                     <td data-title="Name" style=" text-transform: capitalize;">{{emp.emp_name}}</td>
                     <td data-title="Designation" style=" text-transform: capitalize;"> {{emp.emp_designation}} </td>
                     <td data-title="Date of Joining">{{emp.emp_doj | date }}</td>

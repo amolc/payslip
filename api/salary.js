@@ -38,7 +38,7 @@ exports.settings = function(req, res) {
 
 
 exports.getemployee = function(req, res) {
-    // console.log('getemployee');
+    console.log('getemployee', req.body);
     employeeCRUD.load({
         emp_id: req.body.emp_id
     }, function(error, employees) {
@@ -57,7 +57,7 @@ exports.getemployee = function(req, res) {
 };
 
 exports.employeepayslip = function(req, res) {
-    console.log('employeepayslip',req.body);
+    console.log('employeepayslip', req.body);
     salaryCRUD.load({
         salary_record_empid: req.body.emp_payslip
     }, function(error, payslips) {
@@ -68,6 +68,28 @@ exports.employeepayslip = function(req, res) {
             });
         } else {
             console.log('error reading payslip of employee', error);
+            res.jsonp({
+                status: false
+            });
+        }
+    });
+};
+
+exports.createmployee = function(req, res) {
+    console.log('create employee', req.body);
+    var employee = req.body;
+    employeeCRUD.create({
+        emp_name: employee.emp_name,
+        emp_doj: employee.emp_doj,
+        emp_department: employee.emp_department,
+        emp_designation: employee.emp_designation
+    }, function(error, employees) {
+        if (!error) {
+            res.jsonp({
+                status: true              
+            });
+        } else {
+            console.log('error creating employee', error);
             res.jsonp({
                 status: false
             });

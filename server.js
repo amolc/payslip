@@ -105,6 +105,8 @@ app.get('/api/setting', salary.settings);
 app.post('/api/getemployee', salary.getemployee);
 app.post('/api/savepayslip', salary.savepayslip);
 app.post('/api/employeepayslip', salary.employeepayslip);
+app.post('/api/createmployee', salary.createmployee);
+
 
 // app.post('/api/login', userlogin.login);
 // app.post('/api/addtodos',todos.addtodos);
