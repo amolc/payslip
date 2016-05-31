@@ -11,8 +11,15 @@
                 <div ng-messages="salaryForm.$submitted && salaryForm.total_salary.$error" role="alert">
                     <div ng-message="required" class="alert alert-danger"> Enter Total Salary</div>
                 </div>
-                <button type="submit" class="btn btn-default" ng-click="calculateSalary(salaryForm);printthis();custom=!custom">Submit</button>
-                <!-- <button type="submit" class="btn btn-default" ng-click="printthis()">Print This</button> -->
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="{minMode: 'month'}" datepicker-mode="'month'" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                    />
+                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                </p>
+                <button type="submit" class="btn btn-default" ng-click="calculateSalary(salaryForm);custom=!custom">Submit</button>
+                <button type="submit" class="btn btn-default" ng-show="deduction" ng-click="printthis()">Save as PDF</button>
             </div>
         </div>
     </form>

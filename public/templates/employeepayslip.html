@@ -1,0 +1,33 @@
+<div id="demo" ng-controller="MainController">
+
+    <h1>Employee Payslip</h1>
+    <div class="alert alert-success col-md-3" role="alert">
+        <p style="font-weight:bolder;" ui-sref="payslip({emp_id:current_emp.emp_payslip})">
+            <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Generate New Payslip</p>
+    </div>
+    <div style="padding-top: 75px">
+        <!-- Responsive table starts here -->
+        <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+        <div class="table-responsive-vertical shadow-z-1">
+            <!-- Table starts here -->
+            <table id="table" class="table table-hover table-mc-light-blue">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Month</th>
+                        <th>Total Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="emp in empPayslip">
+                        <td data-title="ID">{{emp.salary_info_id}}</td>
+                        <td data-title="Name" style=" text-transform: capitalize;">{{emp.salary_record_empname}}</td>
+                        <td data-title="Month" style=" text-transform: capitalize;"> {{emp.salary_record_month | date:'MMMM'}} </td>
+                        <td data-title="Total Salary">{{emp.salary_record_totalsalary}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
