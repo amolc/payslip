@@ -7,36 +7,53 @@ var ApplicationModuleName = 'DemoApp';
 var SampleApplicationModule = angular.module('DemoApp', ['ui.router', 'angular-storage', 'ngMessages', 'ngMaterial', 'ngMaterialDatePicker', 'ui.bootstrap']);
 
 SampleApplicationModule.config(['$urlRouterProvider', '$stateProvider', 'storeProvider', function($urlRouterProvider, $stateProvider, storeProvider) {
-    storeProvider.setStore('sessionStorage');
-    $urlRouterProvider.otherwise('/welcomepage');
-    $stateProvider
-        .state('signin', {
-            url: '/signin',
-            templateUrl: 'templates/signin.html'
-        })
+        //storeProvider.setStore('sessionStorage',{s:dd});
 
-    .state('welcomepage', {
-            url: '/welcomepage',
-            templateUrl: 'templates/welcomepage.html'
-        })
-        .state('pay', {
-            url: '/pay/:emp_id',
-            templateUrl: 'templates/pay.html'
-        })
+        $urlRouterProvider.otherwise('/signin');
+        $stateProvider
+            .state('signin', {
+                url: '/signin',
+                templateUrl: 'templates/signin.html'
+            })
 
-    .state('signup', {
-            url: '/signup',
-            templateUrl: 'templates/signup.html'
-        })
-        .state('payslip', {
-            url: '/payslip/:emp_id',
-            templateUrl: 'templates/payslip.html'
-        })
-        .state('employeepayslip', {
-            url: '/employeepayslip/:emp_payslip',
-            templateUrl: 'templates/employeepayslip.html'
+        .state('welcomepage', {
+                url: '/welcomepage',
+                templateUrl: 'templates/welcomepage.html',
+                authRequired: true
+            })
+            .state('pay', {
+                url: '/pay/:emp_id',
+                authRequired: true,
+                templateUrl: 'templates/pay.html'
+            })
+
+        .state('signup', {
+                url: '/signup',
+                templateUrl: 'templates/signup.html'
+            })
+            .state('payslip', {
+                url: '/payslip/:emp_id',
+                authRequired: true,
+                templateUrl: 'templates/payslip.html'
+            })
+            .state('employeepayslip', {
+                url: '/employeepayslip/:emp_payslip',
+                authRequired: true,
+                templateUrl: 'templates/employeepayslip.html'
+            });
+    }])
+    .run(function($rootScope, AuthService, $state, $location) {
+        $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+            if (toState.authRequired && !AuthService.isAuthenticated) {
+                $state.go("signin");
+                event.preventDefault();
+            } else {
+                if (toState.url == '/signin' && AuthService.isAuthenticated) {
+                    $location.path("welcomepage");
+                }
+            }
         });
-}]);
+    });
 
 
 angular.module('DemoApp').controller('MainController', [
@@ -50,12 +67,21 @@ angular.module('DemoApp').controller('MainController', [
     'store',
     '$filter',
     '$sce',
-    function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store, $filter,$sce) {
+    function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store, $filter, $sce, AuthService) {
 
         $scope.init = function() {
             $scope.userSession = store.get('userSession') || {};
         };
         //  $scope.custom = true;
+
+        var myObj = {
+            name: 'mgonto'
+        };
+
+        store.set('obj', myObj);
+
+        var myNewObject = store.get('obj');
+        console.log(myNewObject);
 
         if ($stateParams.emp_id) {
             // console.log('$stateParams', $stateParams);
@@ -64,11 +90,11 @@ angular.module('DemoApp').controller('MainController', [
 
         if ($stateParams.emp_payslip) {
 
-            console.log('emp_payslip', $stateParams);
+            //console.log('emp_payslip', $stateParams);
             var emp = {
                 emp_id: $stateParams.emp_payslip
             };
-            console.log('emp', emp);
+            //console.log('emp', emp);
             $scope.employeePayslip($stateParams);
             $scope.navigate(emp);
         }
@@ -169,6 +195,12 @@ angular.module('DemoApp').controller('MainController', [
 
         $scope.random_number = Math.floor((Math.random() * 99999999999) + 1);
 
+        $scope.cust1 = true;
+        $scope.toggleCustom = function() {
+            $scope.cust1 = $scope.cust1 === false ? true : false;
+        };
+
+
         $scope.printthis = function() {
             html2canvas(document.getElementById('printthis'), {
                 onrendered: function(canvas) {
@@ -184,15 +216,26 @@ angular.module('DemoApp').controller('MainController', [
             });
         };
 
+        $scope.printpdf = function(record) {
+            console.log('record', record);
+            $scope.new_salary = record;
+            $scope.notes = record.notes;
+            $scope.selectedcurrency = record.selectedcurrency;
+            $scope.cash_in_hand = record.salary_record_cash_in_hand;
+            $scope.deduction = record.salary_record_deduction;
+        };
+
+
+
         $scope.current_date = new Date();
         $scope.date = new Date();
 
         $scope.addupdateEmployee = function(employeeForm) {
             if (employeeForm.$valid) {
-                console.log('New Employee', $scope.employee);
+                //    console.log('New Employee', $scope.employee);
                 $http.post(baseUrl + 'createmployee', $scope.employee).success(function(res, req) {
                     // $scope.employeeForm.$setPristine();
-                    console.log('current_employee', res);
+                    //  console.log('current_employee', res);
                     $scope.employeeMsg = "Employee Added";
                     $scope.showemployeeMsg = true;
                     $scope.hidecustom = false;
@@ -241,7 +284,7 @@ angular.module('DemoApp').controller('MainController', [
 
         $scope.navigate = function(emp_id) {
             $http.post(baseUrl + 'getemployee', emp_id).success(function(res, req) {
-                console.log('current_employee', res.employees);
+                //  console.log('current_employee', res.employees);
                 $scope.current_employee = res.employees[0];
             }).error(function() {
                 console.log("problem In signup");
@@ -249,7 +292,7 @@ angular.module('DemoApp').controller('MainController', [
         };
         $scope.notes = '';
         $scope.calculateSalary = function(salaryForm) {
-            console.log('is form valid', salaryForm.$valid);
+            //    console.log('is form valid', salaryForm.$valid);
             if (salaryForm.$valid) {
                 $scope.new_salary = {
                     "salary_record_basic": $scope.settings.setting_basic * $scope.salary.salary_total,
@@ -283,7 +326,7 @@ angular.module('DemoApp').controller('MainController', [
                     salary_total: $scope.salary.salary_total,
                     month: $scope.dt,
                     notes: $scope.notes,
-                    selectedcurrency : $scope.selectedcurrency
+                    selectedcurrency: $scope.selectedcurrency
                 });
             }
         };
@@ -295,12 +338,12 @@ angular.module('DemoApp').controller('MainController', [
             'name': 'Singapore Dollar',
             'symbol': 'SGD'
         }];
-        $scope.selectedcurrency=$scope.currencies[0].symbol;
+        $scope.selectedcurrency = $scope.currencies[0].symbol;
         // $scope.curr = $sce.trustAsHtml($scope.currencies[0].symbol);
 
         $scope.saveCalculatedSalary = function() {
             $http.post(baseUrl + 'savepayslip', $scope.salaryInfo).success(function(res, req) {
-                console.log('response salary api', res);
+                //    console.log('response salary api', res);
                 if (res.status == true) {
                     $scope.created = true
                 } else {
@@ -312,11 +355,11 @@ angular.module('DemoApp').controller('MainController', [
         };
 
         $scope.employeePayslip = function(emp) {
-            console.log('employee param', emp);
+            //    console.log('employee param', emp);
             $scope.current_emp = emp;
             // console.log('current employee', $scope.current_employee);
             $http.post(baseUrl + 'employeepayslip', emp).success(function(res, req) {
-                console.log('response salary api', res);
+                //    console.log('response salary api', res);
                 $scope.empPayslip = res.payslips;
             }).error(function(error) {
                 console.log("problem In creating payslip", error);
@@ -329,51 +372,39 @@ angular.module('DemoApp').controller('MainController', [
 
 
 
+        $scope.user = {
+            username: '',
+            password: ''
+        };
 
+        $scope.userlogin = function(user, valid) {
+            console.log('user', $scope.user);
+            if ($scope.user.username == 'admin' && $scope.user.password == 'admin') {
+                var userSession = {
+                    'login': true,
+                    'userid': 1,
+                    'user_name': user.username
+                };
+                store.set('userSession', userSession);
+                AuthService.isAuthenticated = true;
+                $scope.init();
+                $state.go('welcomepage');
+            } else {
 
-        // $scope.userlogin = function(user, valid) {
-        //     if (valid) {
-        //         $http.post(baseUrl + 'login', user).success(function(res, req) {
-        //             if (res.status == true) {
-        //                 var userSession = {
-        //                     'login': true,
-        //                     'userid': res.record[0].id,
-        //                     'user_email': res.record[0].user_email,
-        //                     'user_name': res.record[0].user_name
-        //                 };
-        //                 store.set('userSession', userSession);
-        //                 $scope.init();
-        //                 $state.go('welcomepage');
-        //             } else if (res.status === false) {
-        //                 console.log("login failed");
-        //                 $scope.loginfailuremsg = 'Please Enter Valid Email Address and Password';
-        //                 $scope.showloginfailuremsg = true;
-        //
-        //                 // Simulate 2 seconds loading delay
-        //                 $timeout(function() {
-        //                     // Loadind done here - Show message for 3 more seconds.
-        //                     $timeout(function() {
-        //                         $scope.showloginfailuremsg = false;
-        //                     }, 3000);
-        //                     document.getElementById("loginform").reset();
-        //                 }, 2000);
-        //             }
-        //         }).error(function() {
-        //             console.log("Connection Problem.");
-        //         });
-        //     }
-        // };
+            }
+        };
+
         // /**
         //   @function usersignout
         //   @author Sameer Vedpathak
         //   @initialDate
         //   @lastDate
         // */
-        // $scope.usersignout = function() {
-        //     store.remove('userSession');
-        //     $location.path('signin');
-        //     $scope.init();
-        // };
+        $scope.usersignout = function() {
+            store.remove('userSession');
+            $location.path('signin');
+            $scope.init();
+        };
 
 
         // $scope.signup = function(userinfo, valid) {

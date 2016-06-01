@@ -63,8 +63,36 @@
     <br>
     <br>
     <br>
+    <div style="padding-top: 25px;margin-left: -15px;" ng-hide="custom">
+        <!-- Responsive table starts here -->
+        <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+        <div class="table-responsive-vertical shadow-z-1">
+            <!-- Table starts here -->
+            <table id="table" class="table table-hover table-mc-light-blue">
+                <thead>
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Month</th>
+                        <th>Total Salary</th>
+                        <th>Salary Slip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="emp in empPayslip">
+                        <td data-title="Name" style=" text-transform: capitalize;">{{emp.salary_record_empname}}</td>
+                        <td data-title="Month" style=" text-transform: capitalize;"> {{emp.salary_record_month | date:'MMMM'}} </td>
+                        <td data-title="Total Salary">{{emp.salary_record_totalsalary}}</td>
+                        <td data-title="DOWNLOAD"><a href="" ng-click="printpdf(emp);toggleCustom()">PREVIEW<a></td>
+                          <td data-title="DOWNLOAD"><a href="" ng-hide="cust1" ng-click="printthis()">DOWNLOAD<a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- ng-show="deduction" -->
-    <div id="printthis" ng-show="deduction" style="background-color: white; margin-left: -16px; margin-right: -15px;">
+
+    <div id="printthis" ng-show="deduction" ng-hide="cust1" style="background-color: white; margin-left: -16px; margin-right: -15px;">
         <style type="text/css">
             .tg {
                 border-collapse: collapse;
@@ -189,7 +217,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-3" style=" font-weight: bold;">
-                        &nbsp DEPARTMENT
+                          &nbsp DEPARTMENT
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         {{current_employee.emp_department}}
@@ -521,29 +549,5 @@
             </div>
         </div>
     </div>
-    <div style="padding-top: 25px;margin-left: -15px;" ng-hide="custom">
-        <!-- Responsive table starts here -->
-        <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
-        <div class="table-responsive-vertical shadow-z-1">
-            <!-- Table starts here -->
-            <table id="table" class="table table-hover table-mc-light-blue">
-                <thead>
-                    <tr>
 
-                        <th>Name</th>
-                        <th>Month</th>
-                        <th>Total Salary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="emp in empPayslip">
-
-                        <td data-title="Name" style=" text-transform: capitalize;">{{emp.salary_record_empname}}</td>
-                        <td data-title="Month" style=" text-transform: capitalize;"> {{emp.salary_record_month | date:'MMMM'}} </td>
-                        <td data-title="Total Salary">{{emp.salary_record_totalsalary}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>

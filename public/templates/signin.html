@@ -1,47 +1,28 @@
-<div class="container_margin">
-	<form data-ng-submit="userlogin(user,loginfrm.$valid)" name="loginfrm" id="loginform" novalidate>
-	<fieldset>
-		<div class="col-10">  	
-		  	<div class="field-group clear row"> 
-		  		<div class="col-5 push-5">
-		  			<h2 for="login">Welcome To App</h2>
-		  		</div>
-		  	</div>
-		  	<div class="field-group clear row"> 
-		  		<div class="col-5 push-5">
-		  			<input type="text" class="field" id="text-input" placeholder="Enter Email Address" data-ng-model="user.user_email" name= "email" data-ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i" required>
-		  			<span>
-	            		<div data-ng-messages="loginfrm.$submitted && loginfrm.email.$error" role="alert" class="error_msg">
-		                  <div data-ng-message="required">Please Enter Email Address</div>
-		                  <div data-ng-message="pattern">Enter Valid Email Address</div>
-	            		</div>
-          			</span>
-		  		</div>
-		  		
-		  	</div>
-		  	<div class="field-group clear row"> 
-		  		<div class="col-5 push-5">
-		  			<input type="password" class="field" id="text-input" name="password"placeholder="Enter Password" data-ng-model="user.user_password" required>
-		  			<span ng-if="loginfrm.$submitted">
-	            		<div data-ng-messages="loginfrm.$submitted && loginfrm.password.$error" role="alert" class="error_msg">
-		                  <div data-ng-message="required">Please Enter Password</div>
-	            		</div>
-          			</span>
-		  		</div>
-		  	</div>
-		  	<div class="field-group clear row"> 
-		  		<div class="col-5 push-5">
-		  			<button class="field">LOGIN</button>
-		  			<div ng-model="loginfailuremsg" ng-show="showloginfailuremsg" class="login_err_msg">{{loginfailuremsg}}</div>
-		  		</div>
-		  	</div>
-		  	<div class="field-group clear row"> 
-		  		<div class="col-5 push-7 field">
-		  			<label ui-sref="signup">SIGN UP</label>
-		  		</div>
-		  	</div>
-		  	
-		</div>	
-	</fieldset>
-	</form>
+<!--Pulling Awesome Font -->
+<div class="container" style="padding: 25px;
+    position: fixed;">
+	<div class="row">
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<div class="col-md-offset-5 col-md-3">
+			<div class="form-login" style="background-color: white; padding-top: 10px; padding-bottom: 20px; padding-left: 20px;
+    padding-right: 20px; border-radius: 15px; border-color:#d2d2d2; border-width: 5px; box-shadow:0 1px 0 #cfcfcf;">
+				<h4 style="border:0 solid #fff; border-bottom-width:1px; padding-bottom:10px; text-align: center;">Welcome Back.</h4>
+				<input type="text" id="userName" ng-model="user.username" class="form-control input-sm chat-input" style="border-radius: 10px;" placeholder="username" />
+				</br>
+				<input type="Password" id="userPassword" ng-model="user.password" class="form-control input-sm chat-input" style="border-radius: 10px;" placeholder="password" />
+				</br>
+				<div class="wrapper" style="text-align: center;">
+					<span class="group-btn">
+                <a href="#" class="btn btn-primary btn-md" ng-click="userlogin(user)">login <i class="fa fa-sign-in"></i></a>
+            </span>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </div>
