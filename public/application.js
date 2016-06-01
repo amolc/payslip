@@ -49,7 +49,8 @@ angular.module('DemoApp').controller('MainController', [
     '$timeout',
     'store',
     '$filter',
-    function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store, $filter) {
+    '$sce',
+    function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store, $filter,$sce) {
 
         $scope.init = function() {
             $scope.userSession = store.get('userSession') || {};
@@ -246,7 +247,7 @@ angular.module('DemoApp').controller('MainController', [
                 console.log("problem In signup");
             });
         };
-
+        $scope.notes = '';
         $scope.calculateSalary = function(salaryForm) {
             console.log('is form valid', salaryForm.$valid);
             if (salaryForm.$valid) {
@@ -280,10 +281,22 @@ angular.module('DemoApp').controller('MainController', [
                     cash_in_hand: $scope.cash_in_hand,
                     ctc: $scope.salary.salary_total - $scope.deduction,
                     salary_total: $scope.salary.salary_total,
-                    month: $scope.dt
+                    month: $scope.dt,
+                    notes: $scope.notes,
+                    selectedcurrency : $scope.selectedcurrency
                 });
             }
         };
+
+        $scope.currencies = [{
+            'name': 'Rupee',
+            'symbol': 'INR'
+        }, {
+            'name': 'Singapore Dollar',
+            'symbol': 'SGD'
+        }];
+        $scope.selectedcurrency=$scope.currencies[0].symbol;
+        // $scope.curr = $sce.trustAsHtml($scope.currencies[0].symbol);
 
         $scope.saveCalculatedSalary = function() {
             $http.post(baseUrl + 'savepayslip', $scope.salaryInfo).success(function(res, req) {

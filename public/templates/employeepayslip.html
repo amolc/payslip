@@ -13,14 +13,19 @@
                 <div class="row" style="background-color: white;">
                     <div class="form-group col-md-3">
                         <br>
+                        <!-- <label for="email">Select Currency</label>
+                        <input type="text" name="name" value="">
+                        -->
                         <label for="email">Total Salary</label>
                         <input type="number" ng-model="salary.salary_total" name="total_salary" class="form-control" id="email" required>
                         <br>
                         <div ng-messages="salaryForm.$submitted && salaryForm.total_salary.$error" role="alert">
                             <div ng-message="required" class="alert alert-danger"> Enter Total Salary</div>
                         </div>
+                        <label for="email">Notes</label>
+                        <textarea class="form-control" ng-model="notes" style="margin: 0px; width: 413px; height: 68px;"></textarea>
                     </div>
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-4">
                         <br>
                         <label for="email">Select Month</label>
                         <p class="input-group">
@@ -30,6 +35,14 @@
                               <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
                             </p>
                           </span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <br>
+                        <label for="email">Select Currency</label>
+                        <select name="singleSelect" class="form-control" ng-model="selectedcurrency">
+                            <option ng-repeat="currency in currencies" value="{{currency.symbol}}">{{currency.name}}</option>
+                        </select>
+                        <br>
                     </div>
                     <div class="form-group col-md-3">
                         <br>
@@ -50,6 +63,7 @@
     <br>
     <br>
     <br>
+    <!-- ng-show="deduction" -->
     <div id="printthis" ng-show="deduction" style="background-color: white; margin-left: -16px; margin-right: -15px;">
         <style type="text/css">
             .tg {
@@ -129,7 +143,7 @@
         <div class="tg-wrap" style="padding-left:146px">
             <div class="row">
                 <div class="col-md-6">
-                    <img style="height: 100px; width: 100px; margin-left: -142px; margin-top: 14px;" src="/ft.png" alt="" />
+                    <img style="height: 100px; width: 100px; margin-left: -141px; margin-top: 14px;" src="/ft.png" alt="" />
                 </div>
                 <div class="col-md-6">
                     <b>
@@ -147,26 +161,26 @@
             <h1>
                 <center style="text-decoration: underline;padding-right: 220px; font-weight: bold;">SALARY SLIP</center>
             </h1>
-            <div class="" style="border-style: solid;margin-left: -9pc;">
+            <div class="" style="margin-left: -9pc; border: 1px solid black; font-weight: bold; padding: 15px 5px;">
                 <div class="row">
                     <br>
                     <div class="col-md-3" style=" font-weight: bold;">
-                      &nbsp  NAME
+                        &nbsp NAME
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         {{current_employee.emp_name}}
                     </div>
-                    <div class="col-md-3" style=" font-weight: bold;">
+                    <div class="col-md-3" style="font-weight: bold;text-align: right;">
                         &nbsp DATE
                     </div>
-                    <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
+                    <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase;text-align: right;padding-right: 21px;">
                         {{current_date | date}}
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-3" style=" font-weight: bold;">
-                      &nbsp   DESIGNATION
+                        &nbsp DESIGNATION
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         {{current_employee.emp_designation}}
@@ -175,7 +189,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-3" style=" font-weight: bold;">
-                      &nbsp   DEPARTMENT
+                        &nbsp DEPARTMENT
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         {{current_employee.emp_department}}
@@ -184,7 +198,7 @@
                 <br>
                 <div class="row">
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
-                      &nbsp   DATE OF JOINING
+                        &nbsp DATE OF JOINING
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
                         {{current_employee.emp_doj | date}}
@@ -195,254 +209,256 @@
                 <div class="row">
                     <div class="col-md-2" style=" font-weight: bold;">
                     </div>
-                    &nbsp &nbsp<div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
-                         EARNINGS
+                    &nbsp &nbsp
+                    <div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
+                        EARNINGS
                     </div>
                     <div class="col-md-2" style=" font-weight: bold;">
                     </div>
-                    &nbsp     <div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
-                    DEDUCTIONS
+                    &nbsp
+                    <div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
+                        DEDUCTIONS
                     </div>
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 15px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;">
                     SALARY HEAD
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 15px 5px;">
-                    AMOUNT (Rs.)
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;">
+                    AMOUNT ({{selectedcurrency}})
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 15px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;">
                     SALARY HEAD
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 15px 5px;">
-                    AMOUNT (Rs.)
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;">
+                    AMOUNT ({{selectedcurrency}})
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Basic
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_basic}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_basic}} &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     PF Employee
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_pf}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_pf}}  &nbsp {{selectedcurrency}}
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     H R A
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_hr}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_hr}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Education Cess
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_edu}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_edu}}  &nbsp {{selectedcurrency}}
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Conv. ALL
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_conv}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_conv}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Income Tax
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_incometax}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_incometax}}  &nbsp {{selectedcurrency}}
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Medical Allowance
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_medical}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_medical}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Professional Tax
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_pt}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_pt}}  &nbsp {{selectedcurrency}}
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Personal Allowance
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_personal}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_personal}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Phone & Internet
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-                    {{new_salary.salary_record_phone}}
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{new_salary.salary_record_phone}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
-
-                </div>
-            </div>
-            <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+            </div>
+            <div class="row" style="margin-left: -9pc; margin-right: 0px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold;  padding: 10px 5px;">
                     SALARY (GROSS) / PM
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 10px 5px;">
-                    {{cash_in_hand - deduction}}
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;    text-align: right;">
+                    {{cash_in_hand - deduction}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
-
-                </div>
-            </div>
-            <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
-
-                </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+
+                </div>
+            </div>
+            <div class="row" style="margin-left: -9pc; margin-right: 0px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     ESI Employer
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Exgratia
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Medical (Reimb)
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Conv (Reimb)
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Telephone (Reimb)
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;font-weight: bold;">
                     Others (Reimb)
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
                     -
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 2px solid black;  padding: 20px 5px;">
+                <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;">
                     SALARY (CTC) / PM
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 10px 5px;">
-                    {{cash_in_hand - deduction}}
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{cash_in_hand - deduction}}  &nbsp {{selectedcurrency}}
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 10px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;">
                     TOTAL DEDUCTION
                 </div>
-                <div class="col-md-3" style="border: 2px solid black; font-weight: bold; padding: 10px 5px;">
-                    {{deduction}}
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;    text-align: right;">
+                    {{deduction}}  &nbsp {{selectedcurrency}}
                 </div>
             </div>
-            <div class="" style="border-style: solid;margin-left: -9pc;">
+            <div class="" style="margin-left: -9pc; border: 1px solid black; font-weight: bold; padding: 15px 5px;">
                 <div class="row">
                     <br>
                     <div class="col-md-3" style=" font-weight: bold;">
@@ -452,7 +468,7 @@
 
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
-                        {{cash_in_hand}}
+                        {{cash_in_hand}}  &nbsp {{selectedcurrency}}
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
 
@@ -467,7 +483,7 @@
 
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
-                        {{cash_in_hand * 12}}
+                        {{cash_in_hand * 12}}  &nbsp {{selectedcurrency}}
                     </div>
                 </div>
                 <br>
@@ -485,7 +501,7 @@
                         Notes:
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
-
+                        {{notes}}
                     </div>
                 </div>
                 <br>

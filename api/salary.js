@@ -86,7 +86,7 @@ exports.createmployee = function(req, res) {
     }, function(error, employees) {
         if (!error) {
             res.jsonp({
-                status: true              
+                status: true
             });
         } else {
             console.log('error creating employee', error);
@@ -121,6 +121,8 @@ exports.savepayslip = function(req, res) {
         'salary_record_month': req.body[0].month,
         'created_on': 'NULL',
         'modified_on': 'NULL',
+        'notes': req.body[0].notes,
+        'selectedcurrency': req.body[0].selectedcurrency,
         'salary_record_totalsalary': req.body[0].salary_total,
         'salary_record_pt': new_salary.salary_record_pt,
         'salary_record_deduction': deduction,
