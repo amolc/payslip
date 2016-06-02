@@ -52,10 +52,9 @@
 <body data-ng-controller="MainController" data-ng-init="init()">
     <div class="header">
         <header>
-            <!-- <div align="right" ng-if="userSession.login">
-        Users
-        <button ng-click="usersignout()">logout</button>
-      </div> -->
+            <div align="right" ng-if="userSession.login">
+        <button class="btn btn-primary" ng-click="usersignout()">logout</button>
+      </div>
         </header>
     </div>
 
