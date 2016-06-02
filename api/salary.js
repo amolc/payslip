@@ -75,6 +75,31 @@ exports.employeepayslip = function(req, res) {
     });
 };
 
+exports.deleteemployee = function(req, res) {
+    // employeeCRUD
+    // salaryCRUD
+    console.log('deleteemployee', req.body.emp_id);
+    employeeCRUD.destroy({
+        emp_id: req.body.emp_id
+    }, function(error, payslips) {
+        if (!error) {
+            salaryCRUD.destroy({
+                salary_record_empid: req.body.emp_id
+            }, function(err, result) {
+                res.jsonp({
+                    status: true,
+                    payslips: payslips
+                });
+            });
+        } else {
+            console.log('error reading payslip of employee', error);
+            res.jsonp({
+                status: false
+            });
+        }
+    });
+};
+
 exports.createmployee = function(req, res) {
     console.log('create employee', req.body);
     var employee = req.body;
@@ -120,6 +145,7 @@ exports.savepayslip = function(req, res) {
         'salary_record_edu': new_salary.salary_record_edu,
         'salary_record_incometax': new_salary.salary_record_incometax,
         'salary_record_esi': new_salary.salary_record_esi,
+        'salary_record_gross': new_salary.salary_record_gross,
         'salary_record_month': req.body[0].month,
         'created_on': 'NULL',
         'modified_on': 'NULL',

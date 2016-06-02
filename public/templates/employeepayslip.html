@@ -85,6 +85,7 @@
                         <td data-title="Total Salary">{{emp.salary_record_totalsalary}}</td>
                         <td data-title="DOWNLOAD"><a href="" ng-click="printpdf(emp);toggleCustom()">PREVIEW<a></td>
                           <td data-title="DOWNLOAD"><a href="" ng-hide="cust1" ng-click="printthis()">DOWNLOAD<a></td>
+                            <!-- <td data-title="DOWNLOAD"><a href="" ng-hide="cust1" ng-click="printDiv()">PRINT<a></td> -->
                     </tr>
                 </tbody>
             </table>
@@ -228,7 +229,7 @@
                     <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         &nbsp DATE OF JOINING
                     </div>
-                    <div class="col-md-3" style=" font-weight: bold;">
+                    <div class="col-md-3" style=" font-weight: bold;text-transform: uppercase">
                         {{current_employee.emp_doj | date}}
                     </div>
                 </div>
@@ -379,7 +380,7 @@
                     SALARY (GROSS) / PM
                 </div>
                 <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;    text-align: right;">
-                      {{cash_in_hand - deduction}}  &nbsp {{selectedcurrency}}
+                      {{ new_salary.salary_record_gross }}  &nbsp {{selectedcurrency}}
                 </div>
                 <div class="col-md-3" style="border: 1px solid black;  padding: 20px 5px;">
 
@@ -477,7 +478,7 @@
                     SALARY (CTC) / PM
                 </div>
                 <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;    text-align: right;">
-                    {{cash_in_hand - deduction}}  &nbsp {{selectedcurrency}}
+                    {{new_salary.salary_record_gross}}  &nbsp {{selectedcurrency}}
                 </div>
                 <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 10px 5px;font-weight: bold;">
                     TOTAL DEDUCTION

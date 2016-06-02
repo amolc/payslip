@@ -63,14 +63,18 @@
                     <th>Name</th>
                     <th>Designation</th>
                     <th>Date of Joining</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="emp in employees" ui-sref="employeepayslip({emp_payslip:emp.emp_id})">
+                <tr ng-repeat="emp in employees">
                     <!-- <td data-title="ID">{{emp.emp_id}}</td> -->
-                    <td data-title="Name" style=" text-transform: capitalize;">{{emp.emp_name}}</td>
-                    <td data-title="Designation" style=" text-transform: capitalize;"> {{emp.emp_designation}} </td>
-                    <td data-title="Date of Joining">{{emp.emp_doj | date }}</td>
+                    <td data-title="Name" style=" text-transform: capitalize;" ui-sref="employeepayslip({emp_payslip:emp.emp_id})"> {{emp.emp_name}}</td>
+                    <td data-title="Designation" style=" text-transform: capitalize;" ui-sref="employeepayslip({emp_payslip:emp.emp_id})"> {{emp.emp_designation}} </td>
+                    <td data-title="Date of Joining" ui-sref="employeepayslip({emp_payslip:emp.emp_id})">{{emp.emp_doj | date }}</td>
+                    <td class="">
+                        <i class="glyphicon glyphicon-trash" style="cursor:pointer" ng-click="deleteemployee(emp,$index)"></i>
+                    </td>
                 </tr>
             </tbody>
         </table>

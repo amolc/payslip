@@ -249,7 +249,7 @@ angular.module('DemoApp').controller('MainController', [
                         'emp_id': res.emp_id
                     });
 
-                    $scope.employees=res.emp;
+                    $scope.employees = res.emp;
 
                     $timeout(function() {
                         $timeout(function() {
@@ -282,7 +282,8 @@ angular.module('DemoApp').controller('MainController', [
             "salary_record_edu": 0,
             "salary_record_incometax": 0,
             "salary_record_esi": 0,
-            "salary_record_month": 0
+            "salary_record_month": 0,
+            'salary_record_gross': 0
         };
 
         $scope.navigate = function(emp_id) {
@@ -311,13 +312,15 @@ angular.module('DemoApp').controller('MainController', [
                     "salary_record_pt": $scope.settings.salary_pt * $scope.salary.salary_total
                 };
 
+                $scope.new_salary.salary_record_gross = $scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
+                    $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
+                    $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_phone;
+
+
                 $scope.deduction = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu + $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt;
 
-                $scope.cash_in_hand = ($scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
-                    $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
-                    $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_esi +
-                    $scope.new_salary.salary_record_phone) - ($scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
-                    $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt);
+                $scope.cash_in_hand = $scope.new_salary.salary_record_gross - $scope.deduction;
+                console.log('cash in hand', $scope.cash_in_hand);
 
                 $scope.salaryInfo = [];
 
@@ -331,6 +334,30 @@ angular.module('DemoApp').controller('MainController', [
                     month: $scope.dt,
                     notes: $scope.notes,
                     selectedcurrency: $scope.selectedcurrency
+                });
+            }
+        };
+
+        $scope.printDiv = function(divName) {
+            var printContents = document.getElementById('printthis').innerHTML;
+            var popupWin = window.open('', '_blank', 'width=500,height=500');
+            popupWin.document.open();
+            popupWin.document.write('<html><head><link rel="stylesheet" style="*{transition:none!important}"/></head><body onload="window.print()">' + printContents + '</body></html>');
+            popupWin.document.close();
+        }
+
+        $scope.deleteemployee = function(emp, index) {
+            if (confirm('Are you sure you want to delete this?')) {
+                console.log(emp);
+                $http.post(baseUrl + 'deleteemployee', emp).success(function(res, req) {
+                    console.log('deleteemployee', res);
+                    if (res.status == true) {
+                        $scope.employees.splice(index, 1);
+                    } else {
+                        $scope.created = false
+                    }
+                }).error(function(error) {
+                    console.log("problem In creating payslip", error);
                 });
             }
         };
@@ -376,7 +403,7 @@ angular.module('DemoApp').controller('MainController', [
         };
 
         $scope.userlogin = function(user, valid) {
-    //        console.log('user', $scope.user);
+            //        console.log('user', $scope.user);
             if ($scope.user.username == 'admin' && $scope.user.password == 'admin') {
                 var userSession = {
                     'login': true,
