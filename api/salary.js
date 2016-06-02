@@ -85,8 +85,10 @@ exports.createmployee = function(req, res) {
         emp_designation: employee.emp_designation
     }, function(error, employees) {
         if (!error) {
+            console.log('employees', employees);
             res.jsonp({
-                status: true
+                status: true,
+                emp_id: employees.insertId
             });
         } else {
             console.log('error creating employee', error);

@@ -67,21 +67,13 @@ angular.module('DemoApp').controller('MainController', [
     'store',
     '$filter',
     '$sce',
+    'AuthService',
     function($scope, $http, $stateParams, $location, $rootScope, $state, $timeout, store, $filter, $sce, AuthService) {
-
+        //console.log('AuthService', AuthService);
         $scope.init = function() {
             $scope.userSession = store.get('userSession') || {};
         };
         //  $scope.custom = true;
-
-        var myObj = {
-            name: 'mgonto'
-        };
-
-        store.set('obj', myObj);
-
-        var myNewObject = store.get('obj');
-        console.log(myNewObject);
 
         if ($stateParams.emp_id) {
             // console.log('$stateParams', $stateParams);
@@ -103,7 +95,9 @@ angular.module('DemoApp').controller('MainController', [
 
             //$scope.dt = $filter('date')($scope.dt,"MMM");
         };
+
         $scope.today();
+
         $scope.employee = {
             emp_doj: new Date()
         };
@@ -230,21 +224,39 @@ angular.module('DemoApp').controller('MainController', [
         $scope.current_date = new Date();
         $scope.date = new Date();
 
+        $scope.settings = function() {
+            $http.get(baseUrl + 'setting').success(function(res, req) {
+                $scope.settings = res.settings[0];
+                $scope.employees = res.employees;
+            }).error(function(error) {
+                console.log("error getting settings", error);
+            });
+        };
+
+        $scope.settings();
+
         $scope.addupdateEmployee = function(employeeForm) {
             if (employeeForm.$valid) {
-                //    console.log('New Employee', $scope.employee);
                 $http.post(baseUrl + 'createmployee', $scope.employee).success(function(res, req) {
-                    // $scope.employeeForm.$setPristine();
-                    //  console.log('current_employee', res);
                     $scope.employeeMsg = "Employee Added";
                     $scope.showemployeeMsg = true;
                     $scope.hidecustom = false;
+                    $scope.employees.push({
+                        'emp_name': $scope.employee.emp_name,
+                        'emp_designation': $scope.employee.emp_designation,
+                        'emp_department': $scope.employee.emp_department,
+                        'emp_doj': $scope.employee.emp_doj,
+                        'emp_id': res.emp_id
+                    });
+
+                    $scope.employees=res.emp;
+
                     $timeout(function() {
                         $timeout(function() {
                             $scope.showemployeeMsg = false;
-
                         }, 3000);
                     }, 2000);
+
                     document.getElementById("employeeForm").reset();
                     $scope.hidecustom = true;
                     // $scope.settings();
@@ -256,16 +268,7 @@ angular.module('DemoApp').controller('MainController', [
             }
         };
 
-        $scope.settings = function() {
-            $http.get(baseUrl + 'setting').success(function(res, req) {
-                $scope.settings = res.settings[0];
-                $scope.employees = res.employees;
-            }).error(function(error) {
-                console.log("error getting settings", error);
-            });
-        };
 
-        $scope.settings();
 
         $scope.salary = {
             "salary_record_totalsalary": 0,
@@ -309,14 +312,15 @@ angular.module('DemoApp').controller('MainController', [
                 };
 
                 $scope.deduction = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu + $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt;
-                $scope.cash_in_hand = $scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
-                    $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt +
-                    $scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
+
+                $scope.cash_in_hand = ($scope.new_salary.salary_record_basic + $scope.new_salary.salary_record_hr +
                     $scope.new_salary.salary_record_conv + $scope.new_salary.salary_record_medical +
                     $scope.new_salary.salary_record_personal + $scope.new_salary.salary_record_esi +
-                    $scope.new_salary.salary_record_phone;
+                    $scope.new_salary.salary_record_phone) - ($scope.new_salary.salary_record_pf + $scope.new_salary.salary_record_edu +
+                    $scope.new_salary.salary_record_incometax + $scope.new_salary.salary_record_pt);
 
                 $scope.salaryInfo = [];
+
                 $scope.salaryInfo.push({
                     empInfo: $scope.current_employee,
                     new_salary: $scope.new_salary,
@@ -366,19 +370,13 @@ angular.module('DemoApp').controller('MainController', [
             });
         };
 
-
-
-
-
-
-
         $scope.user = {
             username: '',
             password: ''
         };
 
         $scope.userlogin = function(user, valid) {
-            console.log('user', $scope.user);
+    //        console.log('user', $scope.user);
             if ($scope.user.username == 'admin' && $scope.user.password == 'admin') {
                 var userSession = {
                     'login': true,
