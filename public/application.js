@@ -240,7 +240,6 @@ angular.module('DemoApp').controller('MainController', [
                 $http.post(baseUrl + 'createmployee', $scope.employee).success(function(res, req) {
                     $scope.employeeMsg = "Employee Added";
                     $scope.showemployeeMsg = true;
-                    $scope.hidecustom = true;
                     $scope.employees.push({
                         'emp_name': $scope.employee.emp_name,
                         'emp_designation': $scope.employee.emp_designation,
@@ -248,7 +247,7 @@ angular.module('DemoApp').controller('MainController', [
                         'emp_doj': $scope.employee.emp_doj,
                         'emp_id': res.emp_id
                     });
-                    $scope.employees = res.emp;
+
                     $timeout(function() {
                         $timeout(function() {
                             $scope.showemployeeMsg = false;
@@ -256,7 +255,6 @@ angular.module('DemoApp').controller('MainController', [
                     }, 2000);
 
                     document.getElementById("employeeForm").reset();
-                    $scope.hidecustom = true;
                     // $scope.settings();
                 }).error(function() {
                     console.log("problem In signup");

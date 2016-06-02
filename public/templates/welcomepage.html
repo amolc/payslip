@@ -6,7 +6,7 @@
 <br>
 <br>
 <br>
-<form name="employeeForm" id="employeeForm" data-ng-submit="addupdateEmployee(employeeForm)" novalidate>
+<form name="employeeForm" id="employeeForm" data-ng-submit="addupdateEmployee(employeeForm);hidecustom=!hidecustom" novalidate>
     <div ng-show="hidecustom">
         <div class="col-md-3" style="float: none; margin-top: 28px; margin-left: 180px; padding-left: 0px; padding-right: 1px;">
             <div class="form-group">
@@ -54,7 +54,7 @@
         </div>
     </div>
 </form>
-<div id="demo" ng-controller="MainController">
+<div id="demo">
     <div class="table-responsive-vertical shadow-z-1">
         <table id="table" class="table table-hover table-mc-light-blue">
             <thead>
