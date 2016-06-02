@@ -100,6 +100,29 @@ exports.deleteemployee = function(req, res) {
     });
 };
 
+exports.deleteemployeepayslip = function(req, res) {
+    // employeeCRUD
+    // salaryCRUD
+    console.log('deleteemployee', req.body.emp_id);
+    salaryCRUD.destroy({
+        salary_info_id: req.body.salary_info_id
+    }, function(error, payslips) {
+        if (!error) {
+            res.jsonp({
+                status: true,
+                payslips: payslips
+            });
+        } else {
+            res.jsonp({
+                status: false
+            });
+        }
+
+    });
+};
+
+
+
 exports.createmployee = function(req, res) {
     console.log('create employee', req.body);
     var employee = req.body;

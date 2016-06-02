@@ -75,7 +75,8 @@
                         <th>Name</th>
                         <th>Month</th>
                         <th>Total Salary</th>
-                        <th>Salary Slip</th>
+                        <th>Preview</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,8 +85,11 @@
                         <td data-title="Month" style=" text-transform: capitalize;"> {{emp.salary_record_month | date:'MMMM'}} </td>
                         <td data-title="Total Salary">{{emp.salary_record_totalsalary}}</td>
                         <td data-title="DOWNLOAD"><a href="" ng-click="printpdf(emp);toggleCustom()">PREVIEW<a></td>
+                          <td>
+                              <i class="glyphicon glyphicon-trash" style="cursor:pointer" ng-click="deleteemployeepayslip(emp,$index)"></i>
+                          </td>
                           <td data-title="DOWNLOAD"><a href="" ng-hide="cust1" ng-click="printthis()">DOWNLOAD<a></td>
-                            <!-- <td data-title="DOWNLOAD"><a href="" ng-hide="cust1" ng-click="printDiv()">PRINT<a></td> -->
+
                     </tr>
                 </tbody>
             </table>
@@ -239,28 +243,28 @@
                     <div class="col-md-2" style=" font-weight: bold;">
                     </div>
                     &nbsp &nbsp
-                    <div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
+                    <div class="col-md-3" style=" font-weight: bolder;text-decoration: underline;font-size: 18px;">
                         EARNINGS
                     </div>
                     <div class="col-md-2" style=" font-weight: bold;">
                     </div>
                     &nbsp
-                    <div class="col-md-3" style=" font-weight: bold;  text-decoration: underline;">
+                    <div class="col-md-3" style=" font-weight: bolder;text-decoration: underline;font-size: 18px;">
                         DEDUCTIONS
                     </div>
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;background-color: grey;">
                     SALARY HEAD
                 </div>
-                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;background-color: grey;">
                     AMOUNT ({{selectedcurrency}})
                 </div>
-                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;background-color: grey;">
                     SALARY HEAD
                 </div>
-                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;">
+                <div class="col-md-3" style="border: 1px solid black; font-weight: bold; padding: 15px 5px;text-align: right;background-color: grey;">
                     AMOUNT ({{selectedcurrency}})
                 </div>
             </div>
@@ -348,10 +352,10 @@
                 </div>
             </div>
             <div class="row" style="margin-left: -9pc; margin-right: 0px;">
-                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="padding: 10px 5px;">
 
                 </div>
-                <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">
+                <div class="col-md-3" style="padding: 10px 5px;">
 
                 </div>
                 <div class="col-md-3" style="border: 1px solid black;  padding: 10px 5px;">

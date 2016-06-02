@@ -240,7 +240,7 @@ angular.module('DemoApp').controller('MainController', [
                 $http.post(baseUrl + 'createmployee', $scope.employee).success(function(res, req) {
                     $scope.employeeMsg = "Employee Added";
                     $scope.showemployeeMsg = true;
-                    $scope.hidecustom = false;
+                    $scope.hidecustom = true;
                     $scope.employees.push({
                         'emp_name': $scope.employee.emp_name,
                         'emp_designation': $scope.employee.emp_designation,
@@ -248,9 +248,7 @@ angular.module('DemoApp').controller('MainController', [
                         'emp_doj': $scope.employee.emp_doj,
                         'emp_id': res.emp_id
                     });
-
                     $scope.employees = res.emp;
-
                     $timeout(function() {
                         $timeout(function() {
                             $scope.showemployeeMsg = false;
@@ -361,6 +359,24 @@ angular.module('DemoApp').controller('MainController', [
                 });
             }
         };
+
+        $scope.deleteemployeepayslip = function(emp, index) {
+            console.log(emp.salary_info_id);
+            if (confirm('Are you sure you want to delete this?')) {
+                console.log(emp);
+                $http.post(baseUrl + 'deleteemployeepayslip', emp).success(function(res, req) {
+                    console.log('deleteemployeepayslip', res);
+                    if (res.status == true) {
+                        $scope.empPayslip.splice(index, 1);
+                    } else {
+                        $scope.created = false
+                    }
+                }).error(function(error) {
+                    console.log("problem In creating payslip", error);
+                });
+            }
+        };
+
 
         $scope.currencies = [{
             'name': 'Rupee',
