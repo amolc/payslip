@@ -6,6 +6,7 @@
         <p style="font-weight:bolder;" ng-click="custom=!custom">
             <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Generate New Payslip</p>
     </div>
+      <button type="button" class="btn btn-primary pull-right" ui-sref="welcomepage" name="button">Employee List</button>
     <div style="padding-top: 75px;" ng-show="custom">
         <div class="table-responsive-vertical shadow-z-1">
             <!-- Table starts here -->
@@ -501,7 +502,7 @@
 
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
-                        {{cash_in_hand}}  &nbsp {{selectedcurrency}}
+                        {{new_salary.salary_record_gross}}  &nbsp {{selectedcurrency}}
                     </div>
                     <div class="col-md-3" style=" font-weight: bold;">
 
