@@ -53,13 +53,11 @@
     <div class="header">
         <header>
             <div align="right" ng-if="userSession.login">
-        <button class="btn btn-primary" ng-click="usersignout()">logout</button>
-      </div>
+                <!-- <button class="btn btn-primary" ng-click="usersignout()">logout</button> -->
+                <input type="button" class="btn btn-primary" ng-click="usersignout()" name="name" value="Logout">
+            </div>
         </header>
     </div>
-
-
-
     <div ui-view>
     </div>
 

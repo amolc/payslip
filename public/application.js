@@ -440,8 +440,9 @@ angular.module('DemoApp').controller('MainController', [
         //   @lastDate
         // */
         $scope.usersignout = function() {
+            console.log('usersignout');
             store.remove('userSession');
-            $location.path('signin');
+          $state.go('signin');
             $scope.init();
         };
 
