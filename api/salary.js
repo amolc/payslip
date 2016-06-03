@@ -38,7 +38,7 @@ exports.settings = function(req, res) {
 
 
 exports.getemployee = function(req, res) {
-    console.log('getemployee', req.body);
+  //  console.log('getemployee', req.body);
     employeeCRUD.load({
         emp_id: req.body.emp_id
     }, function(error, employees) {
@@ -57,7 +57,7 @@ exports.getemployee = function(req, res) {
 };
 
 exports.employeepayslip = function(req, res) {
-    console.log('employeepayslip', req.body);
+  //  console.log('employeepayslip', req.body);
     salaryCRUD.load({
         salary_record_empid: req.body.emp_payslip
     }, function(error, payslips) {
@@ -78,7 +78,7 @@ exports.employeepayslip = function(req, res) {
 exports.deleteemployee = function(req, res) {
     // employeeCRUD
     // salaryCRUD
-    console.log('deleteemployee', req.body.emp_id);
+  //  console.log('deleteemployee', req.body.emp_id);
     employeeCRUD.destroy({
         emp_id: req.body.emp_id
     }, function(error, payslips) {
@@ -103,7 +103,7 @@ exports.deleteemployee = function(req, res) {
 exports.deleteemployeepayslip = function(req, res) {
     // employeeCRUD
     // salaryCRUD
-    console.log('deleteemployee', req.body.emp_id);
+  //  console.log('deleteemployee', req.body.emp_id);
     salaryCRUD.destroy({
         salary_info_id: req.body.salary_info_id
     }, function(error, payslips) {
@@ -124,7 +124,7 @@ exports.deleteemployeepayslip = function(req, res) {
 
 
 exports.createmployee = function(req, res) {
-    console.log('create employee', req.body);
+  //  console.log('create employee', req.body);
     var employee = req.body;
     employeeCRUD.create({
         emp_name: employee.emp_name,
